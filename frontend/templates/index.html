@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MathSolver</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1 class="title">
+          <span class="math-icon">🧮</span>
+          MathSolver
+        </h1>
+        <p class="subtitle">Your intelligent mathematics assistant</p>
+      </header>
+
+      <main class="main-content">
+        <form class="solver-form" id="mathForm">
+          <div class="form-group">
+            <label for="topicSelect" class="form-label"
+              >Select Math Topic</label
+            >
+            <select id="topicSelect" name="topic" class="form-select" required>
+              <option value="" disabled selected>Choose a math topic...</option>
+              <option value="matrices">Matrices</option>
+              <option value="quadratic">Quadratic Equations</option>
+              <option value="simultaneous">Simultaneous Equations</option>
+              <option value="statistics">Statistics</option>
+              <option value="number-bases">Number Bases Conversion</option>
+            </select>
+          </div>
+
+          <div class="form-group statistics-group" id="statisticsGroup">
+            <label class="form-label">Select Calculation Type</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="statCalculationType"
+                  value="mean"
+                  class="radio-input"
+                />
+                <span class="radio-text">Mean</span>
+              </label>
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="statCalculationType"
+                  value="median"
+                  class="radio-input"
+                />
+                <span class="radio-text">Median</span>
+              </label>
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="statCalculationType"
+                  value="mode"
+                  class="radio-input"
+                />
+                <span class="radio-text">Mode</span>
+              </label>
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="statCalculationType"
+                  value="range"
+                  class="radio-input"
+                />
+                <span class="radio-text">Range</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group number-bases-group" id="numberBasesGroup">
+            <label class="form-label">Select Conversion Type</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="basesConversionType"
+                  value="base 10 → base 2"
+                  class="radio-input"
+                />
+                <span class="radio-text">base 10 → base 2</span>
+              </label>
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="basesConversionType"
+                  value="base 2 → base 10"
+                  class="radio-input"
+                />
+                <span class="radio-text">base 2 → base 10</span>
+              </label>
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="basesConversionType"
+                  value="base 10 → base 8"
+                  class="radio-input"
+                />
+                <span class="radio-text">base 10 → base 8</span>
+              </label>
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="basesConversionType"
+                  value="base 8 → base 10"
+                  class="radio-input"
+                />
+                <span class="radio-text">base 8 → base 10</span>
+              </label>
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="basesConversionType"
+                  value="base 10 → base 16"
+                  class="radio-input"
+                />
+                <span class="radio-text">base 10 → base 16</span>
+              </label>
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="basesConversionType"
+                  value="base 16 → base 10"
+                  class="radio-input"
+                />
+                <span class="radio-text">base 16 → base 10</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="questionInput" class="form-label"
+              >Your Math Question</label
+            >
+            <textarea
+              id="questionInput"
+              name="question"
+              class="form-textarea"
+              placeholder="Paste or type your math question here..."
+              rows="8"
+              required
+            ></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn" id="submitBtn">
+            Solve Problem
+          </button>
+        </form>
+      </main>
+
+      <footer class="footer" id="footer">
+        <p></p>
+      </footer>
+    </div>
+
+    <script src="scripts.js"></script>
+  </body>
+</html>
