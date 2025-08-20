@@ -19,7 +19,7 @@ def home():
 def quadratic():
     if request.method == 'POST':
         pass
-    return render_template('quadratic.html')
+    return "Welcome Quadratic Page"
 
 
 if __name__ == '__main__':
