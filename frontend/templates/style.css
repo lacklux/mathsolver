@@ -172,6 +172,9 @@ body::before {
 .statistics-group {
   display: none;
 }
+.number-bases-group {
+  display: none;
+}
 
 .radio-group {
   display: flex;
