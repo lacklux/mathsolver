@@ -1,4 +1,4 @@
-def solve_2_variables(a1, b1, c1, a2, b2, c2):
+def equations_2(a1, b1, c1, a2, b2, c2):
     steps = {}
     
     # Step 1: Record original equations
@@ -38,7 +38,7 @@ def solve_2_variables(a1, b1, c1, a2, b2, c2):
     return {"solution": (x, y), "steps": steps}
 
 
-def solve_3_variables(a1, b1, c1, d1,
+def equations_3(a1, b1, c1, d1,
                       a2, b2, c2, d2,
                       a3, b3, c3, d3):
     steps = {}
@@ -96,4 +96,3 @@ def solve_3_variables(a1, b1, c1, d1,
     steps["step_6"] = f"Substitute y, z into Eq1 → x = {x}"
     
     return {"solution": (x, y, z), "steps": steps}
-print(solve_3_variables(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))

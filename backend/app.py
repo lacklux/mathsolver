@@ -1,5 +1,9 @@
 from flask import Flask, render_template,request
-from solver.number_base import base2
+from solver.combinatorics import factorial,combination,permutation
+from solver.quadratic import quadratic_solver
+from solver.statistics import solve_median, solve_mean, solve_mode, solve_range
+from solver.simple import simple_interest,compound_interest
+from solver.simultaneous import equations_2, equations_3
 import os
 
 frontend_path = os.path.join(os.path.dirname(__file__), '..', 'frontend')
@@ -12,10 +16,18 @@ app = Flask(
 
 
 OPTIONS = {
-    "median": 'solve_median',
-    "mean": 'solve_mean',
-    "mode": 'solve_mode',
-    "range": 'solve_range'
+    "median": solve_median,
+    "mean": solve_mean,
+    "mode": solve_mode,
+    "range": solve_range,
+    "quadratic": quadratic_solver,
+    "simultaneous_2": equations_2,
+    "simultaneous_3": equations_3,
+    'simple_interest':simple_interest,
+    'compound_interest':compound_interest,
+    'factorial':factorial,
+    'combination':combination,
+    'permutation':permutation
 }
 
 

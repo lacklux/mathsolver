@@ -28,12 +28,3 @@ def quadratic_solver(a, b, c):
     return {'solution':[x1,x2],'steps':steps}
 
 
-
-
-
-
-
-result = quadratic_solver(1, -3, 2)
-
-for step, detail in result.items():
-    print(f"{step}: {detail}")

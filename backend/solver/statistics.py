@@ -16,11 +16,6 @@ def solve_mean(user_input):
     return ans
 
 
-print(solve_mean([1, 2, 3, 4, 5]))
-
-
-
-
 
 
 def solve_median(user_input):
@@ -59,7 +54,7 @@ def solve_median(user_input):
     ans["solution"] = median
     return ans
 
-print(solve_median([1,2,3,4,5,6]))
+
 
 
 
@@ -93,8 +88,6 @@ def solve_mode(user_input):
     ans["solution"] = mode_values
     return ans
 
-print(solve_mode([1,2,3,2,4,6,8,8,8,8,4,5,6]))
-
 
 # # range
 def solve_range(user_input):
@@ -118,7 +111,6 @@ def solve_range(user_input):
     return ans
 
 
-print(solve_range([1,2,3,2,4,6,8,8,8,8,4,5,6]))
 
 
 
