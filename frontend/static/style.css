@@ -169,10 +169,10 @@ body::before {
   font-weight: 400;
 }
 
-.statistics-group {
-  display: none;
-}
-.number-bases-group {
+.number-bases-group,
+.statistics-group,
+.matrices-group,
+.simultaneous-group {
   display: none;
 }
 
@@ -231,4 +231,36 @@ body::before {
     min-width: auto;
     justify-content: flex-start;
   }
+}
+
+
+.result {
+  background: #f8f9fc;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+}
+
+.result-title {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.result-steps {
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+}
+
+.math-step {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  margin: 0.4rem 0;
+}
+
+.final-answer {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #0056d2;
 }

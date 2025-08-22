@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MathSolver</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
@@ -21,7 +24,23 @@
       </header>
 
       <main class="main-content">
-        <form class="solver-form" id="mathForm">
+        {% if result %}
+        <div class="result">
+          <h2 class="result-title">Solution:</h2>
+
+          <div class="result-steps">
+            {% for step_label, step_text in result['steps'].items() %}
+            <p class="math-step">\( {{ step_text }} \)</p>
+            {% endfor %}
+          </div>
+
+          <h3 class="final-answer">
+            Final Answer: \( {{ result['solution'] }} \)
+          </h3>
+        </div>
+        {% endif %}
+
+        <form class="solver-form" id="mathForm" method="POST">
           <div class="form-group">
             <label for="topicSelect" class="form-label"
               >Select Math Topic</label
@@ -29,9 +48,11 @@
             <select id="topicSelect" name="topic" class="form-select" required>
               <option value="" disabled selected>Choose a math topic...</option>
               <option value="matrices">Matrices</option>
-              <option value="quadratic">Quadratic Equations</option>
-              <option value="simultaneous">Simultaneous Equations</option>
               <option value="statistics">Statistics</option>
+              <option value="simple-interest">Simple Interest</option>
+              <option value="quadratic">Quadratic Equations</option>
+              <option value="binary-operations">Binary Operations</option>
+              <option value="simultaneous">Simultaneous Equations</option>
               <option value="number-bases">Number Bases Conversion</option>
             </select>
           </div>
@@ -42,7 +63,7 @@
               <label class="radio-label">
                 <input
                   type="radio"
-                  name="statCalculationType"
+                  name="calculationType"
                   value="mean"
                   class="radio-input"
                 />
@@ -51,7 +72,7 @@
               <label class="radio-label">
                 <input
                   type="radio"
-                  name="statCalculationType"
+                  name="calculationType"
                   value="median"
                   class="radio-input"
                 />
@@ -60,7 +81,7 @@
               <label class="radio-label">
                 <input
                   type="radio"
-                  name="statCalculationType"
+                  name="calculationType"
                   value="mode"
                   class="radio-input"
                 />
@@ -69,7 +90,7 @@
               <label class="radio-label">
                 <input
                   type="radio"
-                  name="statCalculationType"
+                  name="calculationType"
                   value="range"
                   class="radio-input"
                 />
@@ -84,7 +105,7 @@
               <label class="radio-label">
                 <input
                   type="radio"
-                  name="basesConversionType"
+                  name="calculationType"
                   value="base 10 → base 2"
                   class="radio-input"
                 />
@@ -93,7 +114,7 @@
               <label class="radio-label">
                 <input
                   type="radio"
-                  name="basesConversionType"
+                  name="calculationType"
                   value="base 2 → base 10"
                   class="radio-input"
                 />
@@ -102,7 +123,7 @@
               <label class="radio-label">
                 <input
                   type="radio"
-                  name="basesConversionType"
+                  name="calculationType"
                   value="base 10 → base 8"
                   class="radio-input"
                 />
@@ -111,7 +132,7 @@
               <label class="radio-label">
                 <input
                   type="radio"
-                  name="basesConversionType"
+                  name="calculationType"
                   value="base 8 → base 10"
                   class="radio-input"
                 />
@@ -120,7 +141,7 @@
               <label class="radio-label">
                 <input
                   type="radio"
-                  name="basesConversionType"
+                  name="calculationType"
                   value="base 10 → base 16"
                   class="radio-input"
                 />
@@ -129,11 +150,87 @@
               <label class="radio-label">
                 <input
                   type="radio"
-                  name="basesConversionType"
+                  name="calculationType"
                   value="base 16 → base 10"
                   class="radio-input"
                 />
                 <span class="radio-text">base 16 → base 10</span>
+              </label>
+            </div>
+          </div>
+
+
+          <div class="form-group matrices-group" id="matricesGroup">
+            <label class="form-label">Select Calculation Type</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="calculationType"
+                  value="add_matrices"
+                  class="radio-input"
+                />
+                <span class="radio-text">Add Matrices</span>
+              </label>
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="calculationType"
+                  value="subtract_matrices"
+                  class="radio-input"
+                />
+                <span class="radio-text">Subtract Matrices</span>
+              </label>
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="calculationType"
+                  value="multiply_matrices"
+                  class="radio-input"
+                />
+                <span class="radio-text">Multiply Matrices</span>
+              </label>
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="calculationType"
+                  value="inverse_matrices"
+                  class="radio-input"
+                />
+                <span class="radio-text">Inverse Matrices</span>
+              </label>
+               <label class="radio-label">
+                <input
+                  type="radio"
+                  name="calculationType"
+                  value="transpose_matrices"
+                  class="radio-input"
+                />
+                <span class="radio-text">Transpose Matrices</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group simultaneous-group" id="simultaneousGroup">
+            <label class="form-label">Select Calculation Type</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="calculationType"
+                  value="simultaneous_2"
+                  class="radio-input"
+                />
+                <span class="radio-text">2 Equations</span>
+              </label>
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="calculationType"
+                  value="simultaneous_3"
+                  class="radio-input"
+                />
+                <span class="radio-text">3 Equations</span>
               </label>
             </div>
           </div>
@@ -164,5 +261,6 @@
     </div>
 
     <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   </body>
 </html>

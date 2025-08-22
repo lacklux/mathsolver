@@ -6,17 +6,21 @@ def base10_to_base2(number):
     n = number
     bits = []
     step_no = 1
+    sum_str = ''
+    steps[step_no] = f"Convert\; Binary:\; {number}_{{10}}\; to\; base\;2"
+    step_no += 1
     while n > 0:
         n, remainder = divmod(n, 2)
         bits.append(str(remainder))
-        steps[f"step_{step_no}"] = f"divide by 2 → quotient = {n}, remainder = {remainder}"
+        sum_str += f"{remainder}→"
+        steps[f"step_{step_no}"] = f"divide\; by\; 2\; →\; quotient\; =\; {n}\;,\; remainder\; =\; {remainder}"
         step_no += 1
     bits.reverse()
     result = ''.join(bits) if bits else '0'
+    steps[f"step_{step_no}"] = f"Count from the last\; {sum_str[:-1]} = {result}"
     return {"solution": result, "steps": steps, "base": 2}
 
 
-print(base10_to_base2(25))
 
 
 # 2. Convert base 2 → base 10
@@ -25,17 +29,20 @@ def base2_to_base10(binary_str):
     total = 0
     power = 0
     step_no = 1
+    sum_str = ''
+    steps[step_no] = f"Convert \; Binary:\; {binary_str}_2\; to\; base \;10"
+    step_no += 1
     for digit in binary_str[::-1]:  
         value = int(digit)
         part_value = value * (2 ** power)
-        steps[f"step_{step_no}"] = f"Digit {digit} × 2^{power} = {part_value}"
+        sum_str += f"{part_value} + "
+        steps[f"step_{step_no}"] = f"{digit}\; ×\; 2^{power}\; =\; {part_value}"
         total += part_value
         power += 1
         step_no += 1
+    steps[f"step_{step_no}"] = f"Sum:\; {sum_str[:-3]} = {total}"
     return {"solution": total, "steps": steps, "base": 10}
 
-
-print(base2_to_base10("11001"))
 
 
 # 3. Convert base 10 → base 8
@@ -54,8 +61,6 @@ def base10_to_base8(number):
     return {"solution": result, "steps": steps, "base": 8}
 
 
-print(base10_to_base8(83))
-
 
 # 4. Convert base 8 → base 10
 def base8_to_base10(octal_str):
@@ -66,14 +71,12 @@ def base8_to_base10(octal_str):
     for digit in octal_str[::-1]: 
         value = int(digit)
         part_value = value * (8 ** power)
-        steps[f"step_{step_no}"] = f"Digit {digit} × 8^{power} = {part_value}"
+        steps[f"step_{step_no}"] = f"{digit} × 8^{power} = {part_value}"
         total += part_value
         power += 1
         step_no += 1
     return {"solution": total, "steps": steps, "base": 10}
 
-
-print(base8_to_base10("123"))
 
 
 # 5. Convert base 10 → base 16
@@ -92,7 +95,6 @@ def base10_to_base16(number):
     result = ''.join(hex_digits) if hex_digits else '0'
     return {"solution": result, "steps": steps, "base": 16}
 
-print(base10_to_base16(255))
 
 
 # 6. Convert base 16 → base 10
@@ -105,14 +107,12 @@ def base16_to_base10(hex_str):
     for digit in hex_str[::-1].upper(): 
         value = digits.index(digit)
         part_value = value * (16 ** power)
-        steps[f"step_{step_no}"] = f"Digit {digit} × 16^{power} = {part_value}"
+        steps[f"step_{step_no}"] = f"{digit} × 16^{power} = {part_value}"
         total += part_value
         power += 1
         step_no += 1
     return {"solution": total, "steps": steps, "base": 10}
 
-
-print(base16_to_base10("FF"))
 
 
 # BINARY ADDITION
@@ -163,7 +163,6 @@ def binary_addition(bin1, bin2):
     }
 
 
-print(binary_addition("1011", "1101"))
 
 # BINARY SUBTRACTION
 def binary_subtraction(bin1, bin2):
@@ -203,7 +202,6 @@ def binary_subtraction(bin1, bin2):
         "operation": "binary_subtraction"
     }
 
-print(binary_subtraction("1101", "1011"))
 
 
 # BINARY MULTIPLICATION
@@ -229,7 +227,7 @@ def binary_multiplication(bin1, bin2):
         "steps": steps,
         "operation": "binary_multiplication"
     }
-print(binary_multiplication("101", "11"))
+
 
 
 
@@ -260,4 +258,3 @@ def binary_division(bin1, bin2):
         "steps": steps,
         "operation": "binary_division"
     }
-print(binary_division("1110", "10"))
