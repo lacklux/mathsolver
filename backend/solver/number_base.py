@@ -5,19 +5,19 @@ def base10_to_base2(number):
     steps = {}
     n = number
     bits = []
-    step_no = 1
+    step_no = 0
     sum_str = ''
-    steps[step_no] = f"Convert\; Binary:\; {number}_{{10}}\; to\; base\;2"
+    steps[f"step_{step_no}"] = f"Convert Binary: {number}_{{10}} to base 2"
     step_no += 1
     while n > 0:
         n, remainder = divmod(n, 2)
         bits.append(str(remainder))
         sum_str += f"{remainder}→"
-        steps[f"step_{step_no}"] = f"divide\; by\; 2\; →\; quotient\; =\; {n}\;,\; remainder\; =\; {remainder}"
+        steps[f"step_{step_no}"] = f"divide by 2 → quotient = {n}, remainder = {remainder}"
         step_no += 1
     bits.reverse()
     result = ''.join(bits) if bits else '0'
-    steps[f"step_{step_no}"] = f"Count from the last\; {sum_str[:-1]} = {result}"
+    steps[f"step_{step_no}"] = f"Count from the last {sum_str[:-1]} = {result}"
     return {"solution": result, "steps": steps, "base": 2}
 
 
@@ -30,17 +30,17 @@ def base2_to_base10(binary_str):
     power = 0
     step_no = 1
     sum_str = ''
-    steps[step_no] = f"Convert \; Binary:\; {binary_str}_2\; to\; base \;10"
+    steps[f"step_{step_no}"] = f"Convert  Binary: {binary_str}_2 to base 10"
     step_no += 1
     for digit in binary_str[::-1]:  
         value = int(digit)
         part_value = value * (2 ** power)
         sum_str += f"{part_value} + "
-        steps[f"step_{step_no}"] = f"{digit}\; ×\; 2^{power}\; =\; {part_value}"
+        steps[f"step_{step_no}"] = f"{digit} × 2^{power} = {part_value}"
         total += part_value
         power += 1
         step_no += 1
-    steps[f"step_{step_no}"] = f"Sum:\; {sum_str[:-3]} = {total}"
+    steps[f"step_{step_no}"] = f"Sum: {sum_str[:-3]} = {total}"
     return {"solution": total, "steps": steps, "base": 10}
 
 

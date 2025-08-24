@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,jsonify
 from solver.combinatorics import factorial, combination, permutation
 from solver.quadratic import quadratic_solver
+import os
+import re,ast
 from solver.statistics import solve_median, solve_mean, solve_mode, solve_range
 from solver.simple import simple_interest, compound_interest
 from solver.simultaneous import equations_2, equations_3
@@ -25,8 +27,6 @@ from solver.number_base import (
     binary_multiplication,
     binary_subtraction,
 )
-import os
-import re
 
 frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend")
 
@@ -44,41 +44,53 @@ def parser_raw(raw_value):
         return None
 
 
-def parser_matrix(raw_value):
-    """
-    Expects input like:
-      "1,2,3;4,5,6"                 -> single matrix
-      "1,2;3,4 | 5,6;7,8"           -> two matrices (split by '|')
 
-    Returns:
-      - one matrix  -> [[...], [...]]
-      - two matrices -> ([[...], [...]], [[...], [...]])
+def parser_matrix(raw_value: str):
     """
-    try:
-        # Case: two matrices separated by '|'
-        if "|" in raw_value:
-            parts = raw_value.split("|")
-            if len(parts) != 2:
-                return None  # invalid input, more than 2 matrices
-            matrixA = [
-                [float(x) for x in row.split(",")]
-                for row in parts[0].strip().split(";")
-                if row.strip()
-            ]
-            matrixB = [
-                [float(x) for x in row.split(",")]
-                for row in parts[1].strip().split(";")
-                if row.strip()
-            ]
-            return matrixA, matrixB
+    Robust matrix parser.
 
-        # Case: single matrix
-        rows = raw_value.strip().split(";")
-        matrix = [[float(x) for x in row.split(",")] for row in rows if row.strip()]
+    Supports:
+      - "1,2,3;4,5,6"
+      - "1 2 3; 4 5 6"
+      - "[[1,2],[3,4]]"
+      - "[1 2; 3 4]"
+      - "1,2;3,4 | 5,6;7,8" (two matrices)
+    """
+
+    def _to_number(x):
+        v = float(x)
+        return int(v) if v.is_integer() else v
+
+    def _parse_single(text: str):
+        txt = text.strip()
+        if not txt:
+            return None
+
+        # ✅ Case 1: already Python-style [[...],[...]]
+        if txt.startswith("[[") and txt.endswith("]]"):
+            try:
+                obj = ast.literal_eval(txt)
+                return [[_to_number(e) for e in row] for row in obj]
+            except Exception:
+                pass  # fallback to manual parsing
+
+        # ✅ Case 2: bracketed like [1 2; 3 4]
+        txt = txt.strip("[]")
+
+        rows = [r.strip() for r in re.split(r'[;\n]+', txt) if r.strip()]
+        matrix = []
+        for row in rows:
+            parts = [p for p in re.split(r'[,\s]+', row) if p]
+            matrix.append([_to_number(p) for p in parts])
         return matrix
 
-    except ValueError:
-        return None
+    if "|" in raw_value:
+        left, right = raw_value.split("|", 1)
+        A = _parse_single(left)
+        B = _parse_single(right)
+        return (A, B)
+    else:
+        return _parse_single(raw_value)
 
 
 def parser_quadratic(raw_value):
@@ -236,7 +248,7 @@ OPTIONS = {
         "parameter": parser_matrix,
         "operation": None,
     },
-    "inverse__matrices": {
+    "inverse_matrices": {
         "function": inverse_of_matrix,
         "parameter": parser_matrix,
         "operation": None,
@@ -356,12 +368,21 @@ OPTIONS = {
 def home():
     result = None
     error = None
+
     if request.method == "POST":
-        select_option = request.form.get("topic")
-        values = request.form.get("question", "").strip()
-        calculation_type = request.form.get("calculationType")
+        if request.is_json:
+            data = request.get_json()
+            select_option = data.get("topic")
+            values = data.get("question", "").strip()
+            calculation_type = data.get("calculationType")
+        else:
+            select_option = request.form.get("topic")
+            values = request.form.get("question", "").strip()
+            calculation_type = request.form.get("calculationType")
+
         handler = OPTIONS.get(calculation_type)
-        print(handler)
+        print("Handler:", handler)
+
         if handler:
             function_name = handler["function"]
             parameter = handler.get("parameter")
@@ -371,14 +392,19 @@ def home():
             else:
                 values = parameter(values)
             try:
-                result = function_name(values)
-                print(result)
-
+                if isinstance(values, tuple): 
+                    result = function_name(*values) 
+                else:
+                    result = function_name(values)
+                print("Result:", result)
             except Exception as e:
                 error = f"Error occurred: {str(e)}"
 
         else:
             error = "Invalid calculation type selected."
+
+        if request.is_json:
+            return jsonify({"result": result, "error": error})
 
     return render_template("index.html", error=error, result=result)
 
